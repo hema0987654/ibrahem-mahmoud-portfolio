@@ -41,7 +41,10 @@ Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` to the deploy
 
 ## Notes
 
-- GSAP + ScrollTrigger is the only animation library and is loaded only for The Trace on wide screens.
-  Small screens, reduced motion and no-JavaScript get the vertical stepper.
+- Three surfaces: Paper (default), Ink (The Trace, one system plate, case-study architecture) and
+  Signal (one system plate and the Contact finale).
+- GSAP + ScrollTrigger is the only animation library. It is loaded on wide screens only, for the pinned
+  Trace scene, the request flow on the module maps and the request path that runs through the page.
+  Small screens, reduced motion and no-JavaScript get the vertical stepper and CSS-only motion.
 - Every project claim maps to a public repository. `live` links in `content/systems.ts` stay `null`
   until a deployment is verified.

@@ -2,16 +2,16 @@ import type { System } from "@/content/systems";
 
 type Props = {
   system: System;
-  tone?: "paper" | "ink";
+  tone?: "paper" | "ink" | "signal";
 };
 
 /** Text equivalent of the module map: every module, what it does, what it reaches. */
 export function ModuleList({ system, tone = "paper" }: Props) {
   const storeLabel = (id: string) => system.stores.find((s) => s.id === id)?.label ?? id;
   const moduleLabel = (id: string) => system.modules.find((m) => m.id === id)?.label ?? id;
-  const line = tone === "ink" ? "border-paper/15" : "border-line";
-  const muted = tone === "ink" ? "text-paper/65" : "text-muted";
-  const accent = tone === "ink" ? "text-signal-on-ink" : "text-signal";
+  const line = tone === "paper" ? "border-line" : tone === "ink" ? "border-paper/15" : "border-paper/30";
+  const muted = tone === "paper" ? "text-muted" : tone === "ink" ? "text-paper/65" : "text-paper/85";
+  const accent = tone === "paper" ? "text-signal" : tone === "ink" ? "text-signal-on-ink" : "text-white";
 
   return (
     <div>

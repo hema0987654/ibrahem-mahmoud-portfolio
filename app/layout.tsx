@@ -18,7 +18,7 @@ const jetbrains = localFont({
   variable: "--font-jetbrains",
   weight: "100 800",
   display: "swap",
-  preload: false,
+  preload: true,
 });
 
 export const metadata: Metadata = {

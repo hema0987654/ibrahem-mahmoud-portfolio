@@ -159,7 +159,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
       </section>
 
       {/* ── 02 Architecture (Ink) ────────────────────────────── */}
-      <section aria-labelledby="architecture-heading" className="trace-ink bg-ink text-paper">
+      <section aria-labelledby="architecture-heading" className="surface-ink">
         <div className="page section">
           <p className="label flex items-center gap-3 text-paper/60">
             <span className="text-signal-on-ink">02</span>

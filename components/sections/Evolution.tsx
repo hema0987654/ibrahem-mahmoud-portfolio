@@ -1,49 +1,69 @@
 import { evolution } from "@/content/evolution";
-import { SectionHeader } from "@/components/ui/SectionHeader";
+import { EvolutionCounter } from "@/components/sections/EvolutionCounter";
+
+/** Running count of the items listed as added, entry by entry. */
+const totals = evolution.reduce<number[]>((acc, entry) => {
+  acc.push((acc[acc.length - 1] ?? 0) + entry.added.length);
+  return acc;
+}, []);
 
 export function Evolution() {
   return (
-    <section id="evolution" aria-labelledby="evolution-heading" className="section rule">
-      <div className="page">
-        <SectionHeader
-          index="03"
-          label="Evolution"
-          headingId="evolution-heading"
-          title="A changelog, not a résumé."
-          intro="What each project added that the one before it didn’t have."
-        />
+    <section id="evolution" aria-labelledby="evolution-heading" className="section">
+      <div className="page grid gap-14 lg:grid-cols-12 lg:gap-10">
+        {/* Heading and counter stay in view while the timeline scrolls past. */}
+        <div className="lg:order-2 lg:col-span-4 lg:col-start-9">
+          <div className="lg:sticky lg:top-28">
+            <p className="label flex items-center gap-3 text-muted">
+              <span className="text-signal">03</span>
+              <span aria-hidden="true" className="h-px w-8 bg-line-strong" />
+              <span>Evolution</span>
+            </p>
+            <h2
+              id="evolution-heading"
+              className="mt-6 text-[clamp(2rem,3.6vw,3.25rem)] font-semibold leading-[1] tracking-[-0.035em]"
+            >
+              A changelog, not a résumé.
+            </h2>
+            <p className="mt-5 max-w-[34ch] text-lead text-muted">
+              What each project added that the one before it didn’t have.
+            </p>
+            <div className="mt-12">
+              <EvolutionCounter totals={totals} labels={evolution.map((entry) => entry.date)} />
+            </div>
+          </div>
+        </div>
 
-        <div className="relative mt-16 md:mt-24">
-          {/* the request line continues through the timeline */}
-          <div
-            aria-hidden="true"
-            className="grow-line absolute bottom-2 left-[4.5px] top-2 w-0.5 bg-signal md:left-[calc(11.5rem+4.5px)]"
-          />
+        <div className="relative lg:order-1 lg:col-span-8">
+          {/* CSS line for small screens and no-JS; the request path replaces it on wide screens */}
+          <div aria-hidden="true" className="grow-line absolute bottom-2 left-[5px] top-2 w-0.5 bg-signal" />
 
-          <ol className="flex flex-col gap-12 md:gap-16">
-            {evolution.map((entry) => {
+          <ol className="flex flex-col gap-14 md:gap-20" data-path="timeline">
+            {evolution.map((entry, i) => {
               const isNow = entry.kind === "now";
               return (
                 <li
                   key={`${entry.dateTime}-${entry.title}`}
-                  className="reveal relative grid grid-cols-[11px_1fr] gap-x-5 md:grid-cols-[9rem_11px_1fr] md:gap-x-10"
+                  data-evo={i}
+                  data-reached={isNow ? "true" : undefined}
+                  className="relative grid grid-cols-[12px_1fr] gap-x-6 md:gap-x-10"
                 >
-                  <time
-                    dateTime={entry.dateTime}
-                    className="label col-start-2 mb-2 text-muted md:col-start-1 md:mb-0 md:pt-1.5 md:text-right"
-                  >
-                    {entry.date}
-                  </time>
-
                   <span
                     aria-hidden="true"
-                    className={`col-start-1 row-start-1 mt-1 h-[11px] w-[11px] border border-signal md:col-start-2 md:mt-2 ${
-                      isNow ? "bg-signal" : "bg-paper"
-                    } ${entry.kind === "milestone" ? "rounded-full" : ""}`}
+                    data-path-node=""
+                    className={`evo-node relative z-[1] mt-2 h-3 w-3 border-2 border-signal bg-paper ${
+                      entry.kind === "milestone" ? "rounded-full" : ""
+                    }`}
                   />
 
-                  <div className="col-start-2 md:col-start-3">
-                    <h3 className="text-2xl font-semibold leading-tight tracking-[-0.02em] md:text-[1.75rem]">
+                  <div>
+                    <time
+                      dateTime={entry.dateTime}
+                      className="block font-mono text-[clamp(1.5rem,3vw,2.5rem)] font-medium leading-none tracking-[-0.04em] text-signal"
+                    >
+                      {entry.date}
+                    </time>
+                    <h3 className="mt-4 text-2xl font-semibold leading-tight tracking-[-0.02em] md:text-[2rem]">
                       {entry.repo ? (
                         <a href={entry.repo} className="link" target="_blank" rel="noreferrer">
                           {entry.title}
@@ -55,15 +75,15 @@ export function Evolution() {
                         entry.title
                       )}
                     </h3>
-                    <p className="mt-3 max-w-[58ch] text-muted">{entry.summary}</p>
+                    <p className="mt-3 max-w-[54ch] text-muted">{entry.summary}</p>
 
                     {entry.added.length > 0 ? (
                       <ul
                         aria-label={`New in ${entry.title}`}
-                        className="mt-4 flex flex-wrap gap-x-5 gap-y-1.5 font-mono text-[0.8125rem]"
+                        className="mt-5 flex flex-wrap gap-2 font-mono text-[0.8125rem]"
                       >
                         {entry.added.map((item) => (
-                          <li key={item} className="whitespace-nowrap">
+                          <li key={item} className="whitespace-nowrap border border-line-strong px-2.5 py-1.5 leading-none">
                             <span aria-hidden="true" className="mr-1.5 text-ok">
                               +
                             </span>

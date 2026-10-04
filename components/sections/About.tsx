@@ -1,5 +1,4 @@
 import { profile } from "@/content/profile";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export function About() {
   const { about } = profile;
@@ -7,9 +6,19 @@ export function About() {
   return (
     <section id="about" aria-labelledby="about-heading" className="section rule">
       <div className="page">
-        <SectionHeader index="05" label="About" headingId="about-heading" title="The person behind the API." />
+        <p className="label flex items-center gap-3 text-muted">
+          <span className="text-signal">05</span>
+          <span aria-hidden="true" className="h-px w-8 bg-line-strong" />
+          <span>About</span>
+        </p>
+        <h2
+          id="about-heading"
+          className="mt-5 text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-[1.05] tracking-[-0.03em]"
+        >
+          The person behind the API.
+        </h2>
 
-        <div className="mt-16 grid gap-12 md:mt-24 md:grid-cols-12 md:gap-10">
+        <div className="mt-12 grid gap-12 md:mt-16 md:grid-cols-12 md:gap-10">
           <div className="reveal md:col-span-7">
             <p className="text-lead">{about.paragraphs[0]}</p>
 

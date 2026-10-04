@@ -1,115 +1,136 @@
 import type { CSSProperties } from "react";
-import { systems } from "@/content/systems";
-import { SectionHeader } from "@/components/ui/SectionHeader";
+import { systems, type System } from "@/content/systems";
 import { EndpointList } from "@/components/ui/EndpointList";
 import { ModuleMap } from "@/components/diagram/ModuleMap";
 import { ModuleList } from "@/components/diagram/ModuleList";
 
+type Tone = "paper" | "ink" | "signal";
+
+/** One surface per system: Paper, Ink, Signal. */
+const tones: readonly Tone[] = ["paper", "ink", "signal"];
+
+/** Sizes the name so it spans the plate whatever its length. */
+const fit = (name: string) => Math.min(18.5, 96 / (name.length * 0.535));
+
 export function Systems() {
   return (
-    <section id="systems" aria-labelledby="systems-heading" className="section">
-      <div className="page">
-        <SectionHeader
-          index="02"
-          label="Systems"
-          headingId="systems-heading"
-          title="Three systems, drawn from their code."
-          intro="Each map is drawn from the repository: the modules are its folders, the lines are what each one calls."
-        />
-
-        <div className="mt-16 flex flex-col gap-8 md:mt-24 lg:gap-0">
-          {systems.map((system, i) => (
-            <article
-              key={system.slug}
-              aria-labelledby={`system-${system.slug}`}
-              className="sheet"
-              style={{ "--i": i } as CSSProperties}
+    <section id="systems" aria-labelledby="systems-heading">
+      <div className="page pb-14 pt-[var(--section-gap)] md:pb-20">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-10">
+          <p className="label flex items-center gap-3 text-muted lg:col-span-3 lg:pb-3">
+            <span className="text-signal">02</span>
+            <span aria-hidden="true" className="h-px w-8 bg-line-strong" />
+            <span>Systems</span>
+          </p>
+          <div className="lg:col-span-9">
+            <h2
+              id="systems-heading"
+              className="reveal-wipe text-[clamp(2.25rem,6vw,5.5rem)] font-semibold leading-[0.96] tracking-[-0.04em]"
             >
-              <header className="label flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b border-line px-5 py-3 text-muted md:px-8">
-                <span>
-                  <span className="text-signal">System {system.index}</span>
-                  <span aria-hidden="true"> — </span>
-                  <span className="text-text">{system.name}</span>
-                </span>
-                <time dateTime={system.dateTime}>{system.date}</time>
-              </header>
-
-              <div className="grid gap-10 px-5 py-8 md:px-8 md:py-10 lg:grid-cols-12 lg:gap-10">
-                <div className="lg:col-span-5">
-                  <h3
-                    id={`system-${system.slug}`}
-                    className="text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1] tracking-[-0.035em]"
-                  >
-                    {system.name}
-                  </h3>
-                  <p className="mt-4 text-lead leading-snug">{system.tagline}</p>
-
-                  <dl className="mt-8 flex flex-col gap-5">
-                    <div>
-                      <dt className="label text-muted">Problem</dt>
-                      <dd className="mt-1.5 text-base leading-relaxed text-muted">{system.problem}</dd>
-                    </div>
-                    <div>
-                      <dt className="label text-muted">Solution</dt>
-                      <dd className="mt-1.5 text-base leading-relaxed">{system.solution}</dd>
-                    </div>
-                  </dl>
-
-                  <ul aria-label="Facts" className="mt-8 flex flex-wrap gap-x-5 gap-y-1.5 font-mono text-[0.8125rem]">
-                    {system.facts.map((fact) => (
-                      <li key={fact} className="whitespace-nowrap">
-                        <span aria-hidden="true" className="mr-1.5 text-ok">
-                          ✓
-                        </span>
-                        {fact}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="lg:col-span-7">
-                  {/* Map from tablet up; the module notes are a disclosure on every device. */}
-                  <div className="hidden md:block">
-                    <ModuleMap system={system} />
-                  </div>
-                  <details className="module-details">
-                    <summary className="label">
-                      <span>
-                        {system.modules.length} modules and what they talk to
-                      </span>
-                    </summary>
-                    <div className="mt-5">
-                      <ModuleList system={system} />
-                    </div>
-                  </details>
-                </div>
-              </div>
-
-              <footer className="flex flex-col gap-6 border-t border-line px-5 py-5 md:px-8 lg:flex-row lg:items-center lg:justify-between">
-                <EndpointList endpoints={system.endpoints} label={`${system.name} endpoints`} />
-                <div className="flex shrink-0 flex-wrap gap-3">
-                  <a href={`/systems/${system.slug}`} className="btn btn-primary">
-                    Case study
-                    <span aria-hidden="true">→</span>
-                    <span className="sr-only">: {system.name}</span>
-                  </a>
-                  <a href={system.repo} className="btn btn-ghost" target="_blank" rel="noreferrer">
-                    Code
-                    <span aria-hidden="true">↗</span>
-                    <span className="sr-only">: {system.name} on GitHub</span>
-                  </a>
-                  {system.live ? (
-                    <a href={system.live} className="btn btn-ghost" target="_blank" rel="noreferrer">
-                      Live
-                      <span aria-hidden="true">↗</span>
-                    </a>
-                  ) : null}
-                </div>
-              </footer>
-            </article>
-          ))}
+              Three systems, drawn from their code.
+            </h2>
+            <p className="mt-6 max-w-[56ch] text-lead text-muted">
+              Each map is drawn from the repository: the modules are its folders, the lines are what each one calls.
+            </p>
+          </div>
         </div>
       </div>
+
+      {systems.map((system, i) => (
+        <Plate key={system.slug} system={system} tone={tones[i % tones.length] ?? "paper"} />
+      ))}
     </section>
+  );
+}
+
+function Plate({ system, tone }: { system: System; tone: Tone }) {
+  const surface = tone === "ink" ? "surface-ink" : tone === "signal" ? "surface-signal" : "";
+
+  return (
+    <article aria-labelledby={`system-${system.slug}`} className={`plate ${surface}`} data-tone={tone}>
+      {tone !== "paper" ? <span className="margin-line" aria-hidden="true" /> : null}
+
+      <div className="page flex min-h-[100svh] flex-col py-14 md:py-20">
+        <header className="label plate-rule flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b pb-4">
+          <span>
+            <span className="plate-accent">System {system.index}</span>
+            <span aria-hidden="true" className="plate-muted">
+              {" "}
+              /{" "}
+            </span>
+            <span className="plate-muted">0{systems.length}</span>
+          </span>
+          <time dateTime={system.dateTime} className="plate-muted">
+            {system.date}
+          </time>
+        </header>
+
+        <div className="cq mt-8 md:mt-10">
+          <h3
+            id={`system-${system.slug}`}
+            className="plate-name drift"
+            style={{ "--fit": fit(system.name).toFixed(2) } as CSSProperties}
+          >
+            {system.name}
+          </h3>
+        </div>
+
+        <div className="mt-10 grid flex-1 gap-10 md:mt-14 lg:grid-cols-12 lg:gap-12">
+          <div className="hidden md:block lg:col-span-8">
+            <ModuleMap system={system} tone={tone} flow />
+          </div>
+
+          <div className="flex flex-col lg:col-span-4">
+            <p className="text-[clamp(1.375rem,2.2vw,1.875rem)] font-medium leading-[1.15] tracking-[-0.02em]">
+              {system.tagline}
+            </p>
+            <p className="plate-muted mt-5 text-base leading-relaxed">{system.solution}</p>
+
+            <ul aria-label="Facts" className="mt-7 flex flex-col gap-1.5 font-mono text-[0.8125rem]">
+              {system.facts.map((fact) => (
+                <li key={fact}>
+                  <span aria-hidden="true" className="mr-2" style={{ color: "var(--p-ok)" }}>
+                    ✓
+                  </span>
+                  {fact}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-8 flex flex-wrap gap-3 lg:mt-auto lg:pt-8">
+              <a href={`/systems/${system.slug}`} className="btn btn-primary">
+                Case study
+                <span aria-hidden="true">→</span>
+                <span className="sr-only">: {system.name}</span>
+              </a>
+              <a href={system.repo} className="btn btn-ghost" target="_blank" rel="noreferrer">
+                Code
+                <span aria-hidden="true">↗</span>
+                <span className="sr-only">: {system.name} on GitHub</span>
+              </a>
+              {system.live ? (
+                <a href={system.live} className="btn btn-ghost" target="_blank" rel="noreferrer">
+                  Live
+                  <span aria-hidden="true">↗</span>
+                </a>
+              ) : null}
+            </div>
+          </div>
+        </div>
+
+        <div className="plate-rule mt-10 border-t pt-5">
+          <EndpointList endpoints={system.endpoints} tone={tone} label={`${system.name} endpoints`} />
+        </div>
+
+        <details className="module-details mt-5">
+          <summary className="label">
+            <span>{system.modules.length} modules and what they talk to</span>
+          </summary>
+          <div className="pb-2 pt-4 lg:columns-2 lg:gap-12">
+            <ModuleList system={system} tone={tone} />
+          </div>
+        </details>
+      </div>
+    </article>
   );
 }

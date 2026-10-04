@@ -5,7 +5,13 @@
  * Values in `state` are sample data and are labelled as such in the UI.
  */
 
-export type TraceLine = { k: string; v: string; tone?: "ok" | "warn" | "signal" };
+export type TraceLine = {
+  k: string;
+  v: string;
+  tone?: "ok" | "warn" | "signal";
+  /** In the pinned scene the value counts from one number to the other. */
+  roll?: { from: number; to: number };
+};
 
 export type TraceStep = {
   id: string;
@@ -138,7 +144,7 @@ readonly invoiceItems: CreateInvoiceItemDto[];`,
 }`,
     stateTitle: "products · id 12",
     state: [
-      { k: "quantity", v: "7 → 4", tone: "signal" },
+      { k: "quantity", v: "7 → 4", tone: "signal", roll: { from: 7, to: 4 } },
       { k: "min_quantity", v: "5" },
     ],
   },

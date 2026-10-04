@@ -27,7 +27,7 @@ export function CopyEmail({ email }: { email: string }) {
 
   return (
     <button type="button" onClick={copy} className="btn btn-ghost cursor-pointer" aria-live="polite">
-      <span aria-hidden="true" className={copied ? "text-ok" : "text-signal"}>
+      <span aria-hidden="true">
         {copied ? "✓" : "⧉"}
       </span>
       {copied ? "Copied" : "Copy email"}

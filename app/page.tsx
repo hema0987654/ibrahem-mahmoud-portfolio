@@ -8,6 +8,7 @@ import { Contact } from "@/components/sections/Contact";
 import { profile } from "@/content/profile";
 import { systems } from "@/content/systems";
 import { siteUrl } from "@/lib/site";
+import { RequestPath } from "@/components/ui/RequestPath";
 
 const pageJsonLd = [
   {
@@ -32,7 +33,8 @@ const pageJsonLd = [
 
 export default function HomePage() {
   return (
-    <>
+    <div className="home">
+      <RequestPath />
       <Hero />
       <Trace />
       <Systems />
@@ -41,6 +43,6 @@ export default function HomePage() {
       <About />
       <Contact />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }} />
-    </>
+    </div>
   );
 }
