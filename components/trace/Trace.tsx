@@ -200,7 +200,7 @@ export function Trace() {
                   <p className="label flex flex-wrap items-center gap-x-3 gap-y-1 text-paper/55">
                     <span className="text-signal-on-ink">
                       {String(i + 1).padStart(2, "0")}
-                      <span className="text-paper/40"> / {total}</span>
+                      <span className="text-paper/55"> / {total}</span>
                     </span>
                     <span>{step.rail}</span>
                   </p>
@@ -222,7 +222,7 @@ export function Trace() {
                       <div className="border border-paper/20">
                         <p className="label flex items-center justify-between gap-3 border-b border-paper/20 px-3 py-2 text-paper/60">
                           <span>{step.stateTitle}</span>
-                          <span className="text-paper/40">sample</span>
+                          <span className="text-paper/55">sample</span>
                         </p>
                         <dl className="px-3 py-2 font-mono text-[0.8125rem] leading-relaxed">
                           {step.state.map((line) => (

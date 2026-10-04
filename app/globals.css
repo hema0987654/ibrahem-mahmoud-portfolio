@@ -353,7 +353,7 @@ body {
 }
 
 /* Sheets stack as you scroll, only when there is room for a whole sheet. */
-@media (min-width: 64rem) and (min-height: 53rem) {
+@media (min-width: 64rem) and (min-height: 53rem) and (hover: hover) and (pointer: fine) {
   .sheet {
     position: sticky;
     top: calc(4.75rem + var(--i, 0) * 0.875rem);
@@ -515,7 +515,7 @@ body {
     display: flex;
     align-items: center;
     gap: 1rem;
-    color: rgb(242 239 232 / 0.4);
+    color: rgb(242 239 232 / 0.5);
     transition: color var(--dur-ui) linear;
   }
   html.js .trace .trace-rail li[data-state="done"] {
@@ -596,5 +596,120 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .draw {
     stroke-dashoffset: 0 !important;
+  }
+}
+
+/* ── Case study ────────────────────────────────────────────────────────── */
+.code-paper {
+  margin: 0;
+  border: 1px solid var(--color-line-strong);
+  background: var(--color-paper-deep);
+  padding: 1.125rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 2;
+}
+@media (min-width: 48rem) {
+  .code-paper {
+    padding: 1.5rem 1.5rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* Route feedback on arrival: a line sweeps the top, a status chip confirms. */
+.route-chip {
+  position: fixed;
+  left: var(--gutter);
+  bottom: 1.25rem;
+  z-index: 55;
+  border: 1px solid var(--color-line-strong);
+  background: var(--color-paper);
+  padding: 0.5rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0;
+  animation: chip 2600ms var(--ease-out-expo) 250ms both;
+}
+@keyframes chip {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  12%,
+  78% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+/* ── Page transition (cross-document View Transitions; absent elsewhere) ── */
+@view-transition {
+  navigation: auto;
+}
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: vt-out 220ms linear both;
+  }
+  ::view-transition-new(root) {
+    animation: vt-in 620ms var(--ease-out-expo) both;
+  }
+  ::view-transition-group(root) {
+    animation-duration: 620ms;
+  }
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+/* the new page is wiped in from the left, like the signal line sweeping across */
+@keyframes vt-in {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* ── Code is shown as typed: no programming ligatures ──────────────────── */
+pre,
+code,
+.font-mono,
+.label,
+.map-text {
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+
+/* ── Module notes: hover caption for pointers, visible list for touch ──── */
+.list-fallback {
+  margin-top: 2rem;
+}
+@media (min-width: 48rem) and (hover: hover) and (pointer: fine) {
+  .list-fallback {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+@media not ((hover: hover) and (pointer: fine)) {
+  .map-caption {
+    display: none !important;
   }
 }

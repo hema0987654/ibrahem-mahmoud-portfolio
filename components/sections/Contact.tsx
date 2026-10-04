@@ -1,10 +1,9 @@
 import { profile } from "@/content/profile";
 import { CopyEmail } from "@/components/ui/CopyEmail";
 import { MagneticLink } from "@/components/ui/MagneticLink";
+import { SiteFooter } from "@/components/ui/SiteFooter";
 
 export function Contact() {
-  const year = new Date().getFullYear();
-
   return (
     <section id="contact" aria-labelledby="contact-heading" className="rule pt-[var(--section-gap)]">
       <div className="page">
@@ -49,23 +48,9 @@ export function Contact() {
           </div>
         </div>
 
-        <footer className="mt-24 flex flex-col gap-6 border-t border-line py-8 sm:flex-row sm:items-center sm:justify-between md:mt-32">
-          <ul className="flex gap-7">
-            <li>
-              <a href={profile.links.github} className="label link py-2" target="_blank" rel="noreferrer">
-                GitHub ↗
-              </a>
-            </li>
-            <li>
-              <a href={profile.links.linkedin} className="label link py-2" target="_blank" rel="noreferrer">
-                LinkedIn ↗
-              </a>
-            </li>
-          </ul>
-          <p className="label text-muted">
-            © {year} {profile.name} · {profile.location}
-          </p>
-        </footer>
+        <div className="mt-24 md:mt-32">
+          <SiteFooter />
+        </div>
       </div>
     </section>
   );

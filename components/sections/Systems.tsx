@@ -68,12 +68,12 @@ export function Systems() {
                 </div>
 
                 <div className="lg:col-span-7">
-                  {/* Map for wide screens, the same content as a list everywhere else */}
+                  {/* Map from tablet up. The list is visible on touch and small screens,
+                      and stays available to assistive tech when the map has hover. */}
                   <div className="hidden md:block">
                     <ModuleMap system={system} />
-                    <ModuleList system={system} visuallyHidden />
                   </div>
-                  <div className="md:hidden">
+                  <div className="list-fallback">
                     <ModuleList system={system} />
                   </div>
                 </div>

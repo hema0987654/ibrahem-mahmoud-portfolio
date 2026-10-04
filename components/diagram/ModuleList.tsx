@@ -2,13 +2,11 @@ import type { System } from "@/content/systems";
 
 type Props = {
   system: System;
-  /** When true the list is only exposed to assistive tech (the map is shown instead). */
-  visuallyHidden?: boolean;
   tone?: "paper" | "ink";
 };
 
 /** Text equivalent of the module map: every module, what it does, what it reaches. */
-export function ModuleList({ system, visuallyHidden = false, tone = "paper" }: Props) {
+export function ModuleList({ system, tone = "paper" }: Props) {
   const storeLabel = (id: string) => system.stores.find((s) => s.id === id)?.label ?? id;
   const moduleLabel = (id: string) => system.modules.find((m) => m.id === id)?.label ?? id;
   const line = tone === "ink" ? "border-paper/15" : "border-line";
@@ -16,7 +14,7 @@ export function ModuleList({ system, visuallyHidden = false, tone = "paper" }: P
   const accent = tone === "ink" ? "text-signal-on-ink" : "text-signal";
 
   return (
-    <div className={visuallyHidden ? "sr-only" : undefined}>
+    <div>
       <p className={`label ${muted}`}>Request path: {system.entry.join(" → ")} → module</p>
       <dl className={`mt-4 border-t ${line}`}>
         {system.modules.map((module) => {
