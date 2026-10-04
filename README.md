@@ -21,10 +21,11 @@ npm run build
 
 | Path | Purpose |
 | --- | --- |
-| `content/` | All copy and data (profile, evolution, stack, systems). Edit here, not in components. |
+| `content/` | All copy and data (profile, trace, systems, case studies, evolution, stack). Edit here, not in components. |
 | `app/globals.css` | Design tokens (`@theme`), paper grid, grain, motion keyframes. |
 | `components/sections/` | Page sections. |
-| `components/ui/` | Shared pieces (header, section header, magnetic link, copy email). |
+| `components/trace/`, `components/diagram/` | The Trace and the module maps. |
+| `components/ui/` | Shared pieces (header, footer, section header, magnetic link, copy email). |
 | `app/fonts/` | Self-hosted variable fonts (OFL licences included). |
 | `scripts/process-photo.mjs` | One-off portrait processing (`npm run photo`). Source lives in git-ignored `assets-src/`. |
 
@@ -32,7 +33,15 @@ npm run build
 
 Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` to the deployed URL.
 
-## Status
+## Pages
 
-Phase 1 of 6: foundation, Hero, Evolution, Stack, About, Contact.
-Next: Systems, The Trace, case studies, SEO assets.
+- `/` — Hero, The Trace, Systems, Evolution, Stack, About, Contact
+- `/systems/stockguard`, `/systems/talent-showcase`, `/systems/shopsphere` — case studies
+- `/sitemap.xml`, `/robots.txt`, `/llms.txt`, Open Graph images (all generated from `content/`)
+
+## Notes
+
+- GSAP + ScrollTrigger is the only animation library and is loaded only for The Trace on wide screens.
+  Small screens, reduced motion and no-JavaScript get the vertical stepper.
+- Every project claim maps to a public repository. `live` links in `content/systems.ts` stay `null`
+  until a deployment is verified.

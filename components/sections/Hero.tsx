@@ -15,7 +15,7 @@ export function Hero() {
       className="relative flex min-h-[calc(100svh-3.5rem)] flex-col"
     >
       <div className="page flex flex-1 flex-col justify-center pb-10 pt-14 md:pt-20">
-        <p className="label fade flex flex-wrap items-center gap-x-3 gap-y-1 text-muted" style={delay(100)}>
+        <p className="label fade flex flex-wrap items-center gap-x-3 gap-y-1 text-muted" style={delay(0)}>
           <span className="text-text">{profile.name}</span>
           <span aria-hidden="true">—</span>
           <span>{profile.role}</span>
@@ -28,17 +28,17 @@ export function Hero() {
           className="mt-8 text-display font-semibold leading-[0.94] tracking-[-0.045em]"
         >
           {hero.headline.map((line, i) => (
-            <span key={line} className="rise block" style={delay(400 + i * 140)}>
-              {line}
+            <span key={line} className="rise block" style={delay(60 + i * 120)}>
+              {line}{" "}
             </span>
           ))}
         </h1>
 
-        <p className="rise mt-8 max-w-[46ch] text-lead text-muted" style={delay(1400)}>
+        <p className="rise mt-8 max-w-[46ch] text-lead text-muted" style={delay(420)}>
           {hero.subheadline}
         </p>
 
-        <div className="rise mt-10 flex flex-col gap-4 sm:flex-row sm:items-center" style={delay(1650)}>
+        <div className="rise mt-10 flex flex-col gap-4 sm:flex-row sm:items-center" style={delay(600)}>
           <MagneticLink href="#trace" className="btn btn-primary">
             {hero.primaryCta}
             <span aria-hidden="true">↓</span>

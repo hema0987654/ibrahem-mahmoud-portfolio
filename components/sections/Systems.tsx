@@ -68,14 +68,20 @@ export function Systems() {
                 </div>
 
                 <div className="lg:col-span-7">
-                  {/* Map from tablet up. The list is visible on touch and small screens,
-                      and stays available to assistive tech when the map has hover. */}
+                  {/* Map from tablet up; the module notes are a disclosure on every device. */}
                   <div className="hidden md:block">
                     <ModuleMap system={system} />
                   </div>
-                  <div className="list-fallback">
-                    <ModuleList system={system} />
-                  </div>
+                  <details className="module-details">
+                    <summary className="label">
+                      <span>
+                        {system.modules.length} modules and what they talk to
+                      </span>
+                    </summary>
+                    <div className="mt-5">
+                      <ModuleList system={system} />
+                    </div>
+                  </details>
                 </div>
               </div>
 

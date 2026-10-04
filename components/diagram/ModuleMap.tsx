@@ -11,8 +11,8 @@ type Props = {
 };
 
 /**
- * Architecture map drawn from data. The SVG is a visual aid for pointer users;
- * the same information is always present as text in <ModuleList>.
+ * Architecture map drawn from data. The SVG carries a text summary; the full
+ * per-module notes are always available as text in <ModuleList>.
  */
 export function ModuleMap({ system, tone = "paper" }: Props) {
   const layout = useMemo(() => layoutSystem(system), [system]);
@@ -35,7 +35,8 @@ export function ModuleMap({ system, tone = "paper" }: Props) {
       <svg
         viewBox={`0 0 ${MAP.width} ${layout.height}`}
         className="block h-auto w-full"
-        aria-hidden="true"
+        role="img"
+        aria-label={`Architecture map of ${system.name}. Modules: ${system.modules.map((m) => m.label).join(", ")}. Connected to: ${system.stores.map((st) => st.label).join(", ")}.`}
         focusable="false"
         onMouseLeave={() => setActive(null)}
       >
