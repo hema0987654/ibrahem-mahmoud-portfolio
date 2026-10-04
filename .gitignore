@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+.env*
+!.env.example
+.DS_Store
+# Original photo stays out of the public repo; processed versions live in /public
+assets-src/
