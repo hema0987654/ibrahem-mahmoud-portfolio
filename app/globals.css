@@ -12,7 +12,7 @@
   --color-line: rgb(20 20 18 / 0.14);
   --color-line-strong: rgb(20 20 18 / 0.32);
   --color-signal: #1f3bff;
-  --color-signal-on-ink: #7c8cff;
+  --color-signal-on-ink: #5873ff;
   --color-ok: #17794b;
   --color-warn: #96610f;
   --color-ok-on-ink: #6fd3a3;
@@ -763,9 +763,6 @@ html.has-path .grow-line {
     margin-left: -1px;
     background: inherit;
   }
-  .trace-packet[data-kind="response"] {
-    background: var(--color-ok-on-ink);
-  }
   .trace-packet[data-kind="job"] {
     background: var(--color-warn-on-ink);
   }
@@ -857,7 +854,7 @@ html.has-path .grow-line {
     opacity: 1;
   }
   html.js .trace[data-mode="pinned"] .code-line[data-cur="true"] {
-    background: rgb(124 140 255 / 0.2);
+    background: rgb(88 115 255 / 0.24);
     box-shadow: inset 2px 0 0 var(--color-signal-on-ink);
   }
   html.js .trace[data-mode="pinned"] .state-row {
