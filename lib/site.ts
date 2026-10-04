@@ -8,10 +8,11 @@ export const siteTitle = `${profile.name} — ${profile.role}`;
 export const siteDescription =
   "Backend developer working with NestJS, TypeScript and PostgreSQL. Inventory, commerce and learning systems, with the code to back them up.";
 
-/** In-page sections that exist today. Systems and The Trace join in later phases. */
 export const navItems = [
-  { href: "#evolution", label: "Evolution" },
-  { href: "#stack", label: "Stack" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#trace", label: "Trace" },
+  { href: "/#systems", label: "Systems" },
+  { href: "/#evolution", label: "Evolution" },
+  { href: "/#stack", label: "Stack" },
+  { href: "/#about", label: "About" },
+  { href: "/#contact", label: "Contact" },
 ] as const;

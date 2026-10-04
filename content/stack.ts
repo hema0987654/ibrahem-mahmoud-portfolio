@@ -34,7 +34,7 @@ export const stack: readonly StackTier[] = [
       "MongoDB / Mongoose",
       "Redis",
       "Raw SQL (pg)",
-      "Docker",
+      "SQL transactions",
       "Cloudinary",
       "Scheduled jobs",
       "Nodemailer",

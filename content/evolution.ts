@@ -70,7 +70,7 @@ export const evolution: readonly EvolutionEntry[] = [
     title: "ShopSphere",
     summary:
       "E-commerce API written without an ORM: carts, orders, payments and reviews on hand-written SQL.",
-    added: ["Raw SQL (pg)", "Docker"],
+    added: ["Raw SQL (pg)", "SQL transactions", "Row locks"],
     repo: gh("shopsphere"),
     kind: "project",
   },

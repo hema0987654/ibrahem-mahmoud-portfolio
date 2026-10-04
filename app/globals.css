@@ -344,3 +344,257 @@ body {
     scroll-behavior: smooth;
   }
 }
+
+/* ── System sheets ─────────────────────────────────────────────────────── */
+.sheet {
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-sheet);
+  background-color: var(--color-paper);
+}
+
+/* Sheets stack as you scroll, only when there is room for a whole sheet. */
+@media (min-width: 64rem) and (min-height: 53rem) {
+  .sheet {
+    position: sticky;
+    top: calc(4.75rem + var(--i, 0) * 0.875rem);
+    margin-bottom: 2.5rem;
+    box-shadow: 0 -1px 0 var(--color-paper);
+  }
+  .sheet:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* ── Module map ────────────────────────────────────────────────────────── */
+.module-map {
+  --map-fg: var(--color-text);
+  color: var(--map-fg);
+}
+.module-map[data-tone="ink"] {
+  --map-fg: var(--color-paper);
+}
+.map-line {
+  fill: none;
+  stroke: var(--map-fg);
+  stroke-opacity: 0.3;
+  stroke-width: 1;
+  transition:
+    stroke var(--dur-hover) linear,
+    stroke-opacity var(--dur-hover) linear;
+}
+.map-box {
+  fill: transparent;
+  stroke: var(--map-fg);
+  stroke-opacity: 0.45;
+  stroke-width: 1;
+  transition: stroke var(--dur-hover) linear;
+}
+.map-box-store {
+  stroke-opacity: 0.8;
+}
+.map-text {
+  fill: var(--map-fg);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  transition: fill var(--dur-hover) linear;
+}
+.map-node {
+  transition: opacity var(--dur-hover) linear;
+}
+.map-caption {
+  color: var(--map-fg);
+}
+
+/* lines draw themselves once as the map scrolls in */
+@supports (animation-timeline: view()) {
+  .draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw-stroke linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 35%;
+  }
+}
+@keyframes draw-stroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ── The Trace ─────────────────────────────────────────────────────────── */
+.trace-ink {
+  position: relative;
+}
+.trace-ink ::selection {
+  background: var(--color-signal-on-ink);
+  color: var(--color-ink);
+}
+.trace-ink :focus-visible {
+  outline-color: var(--color-signal-on-ink);
+}
+
+.trace-code {
+  margin: 0;
+  border: 1px solid rgb(242 239 232 / 0.2);
+  padding: 0.875rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.65;
+  color: rgb(242 239 232 / 0.9);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 2;
+}
+@media (min-width: 64rem) {
+  .trace-code {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Default: a vertical stepper. This is the whole experience on small screens,
+   with reduced motion, and without JavaScript. */
+.trace-rail {
+  display: none;
+}
+.trace-steps {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  padding-bottom: var(--section-gap);
+  padding-left: 1.75rem;
+}
+.trace-steps::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0.4rem;
+  bottom: var(--section-gap);
+  width: 2px;
+  background: var(--color-signal-on-ink);
+  opacity: 0.55;
+}
+.trace-step {
+  position: relative;
+}
+.trace-step-dot {
+  position: absolute;
+  left: -1.75rem;
+  top: 0.2rem;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--color-signal-on-ink);
+  background: var(--color-ink);
+}
+
+/* Pinned: one step at a time, driven by scroll. */
+@media (min-width: 64rem) and (min-height: 43.75rem) and (prefers-reduced-motion: no-preference) {
+  html.js .trace:not([data-mode="stepper"]) .trace-stage {
+    height: calc(100svh - 3.5rem);
+  }
+  html.js .trace:not([data-mode="stepper"]) .trace-grid {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    column-gap: 4rem;
+    height: 100%;
+    padding-block: 2.5rem;
+  }
+  html.js .trace:not([data-mode="stepper"]) .trace-rail {
+    display: block;
+    position: relative;
+    height: 100%;
+  }
+  html.js .trace:not([data-mode="stepper"]) .trace-rail ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  html.js .trace:not([data-mode="stepper"]) .trace-rail li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: rgb(242 239 232 / 0.4);
+    transition: color var(--dur-ui) linear;
+  }
+  html.js .trace .trace-rail li[data-state="done"] {
+    color: rgb(242 239 232 / 0.7);
+  }
+  html.js .trace .trace-rail li[data-state="active"] {
+    color: var(--color-paper);
+  }
+  .trace-dot {
+    position: relative;
+    z-index: 1;
+    width: 11px;
+    height: 11px;
+    flex: none;
+    border: 1px solid rgb(242 239 232 / 0.45);
+    background: var(--color-ink);
+    transition:
+      background-color var(--dur-ui) linear,
+      border-color var(--dur-ui) linear;
+  }
+  li[data-state="done"] > .trace-dot {
+    border-color: var(--color-signal-on-ink);
+  }
+  li[data-state="active"] > .trace-dot {
+    border-color: var(--color-signal-on-ink);
+    background: var(--color-signal-on-ink);
+  }
+  .trace-track,
+  .trace-progress {
+    position: absolute;
+    left: 5px;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 1px;
+  }
+  .trace-track {
+    background: rgb(242 239 232 / 0.2);
+  }
+  .trace-progress {
+    width: 2px;
+    left: 4.5px;
+    background: var(--color-signal-on-ink);
+    transform-origin: 50% 0;
+    transform: scaleY(0);
+  }
+
+  html.js .trace:not([data-mode="stepper"]) .trace-steps {
+    position: relative;
+    display: block;
+    height: 100%;
+    padding: 0;
+  }
+  html.js .trace:not([data-mode="stepper"]) .trace-steps::before,
+  html.js .trace:not([data-mode="stepper"]) .trace-step-dot {
+    display: none;
+  }
+  html.js .trace:not([data-mode="stepper"]) .trace-step {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(14px);
+    pointer-events: none;
+    transition:
+      opacity var(--dur-ui) linear,
+      transform var(--dur-enter) var(--ease-out-expo);
+  }
+  html.js .trace:not([data-mode="stepper"]) .trace-step[data-active="true"] {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+/* ── Reduced motion additions ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .draw {
+    stroke-dashoffset: 0 !important;
+  }
+}

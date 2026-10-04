@@ -63,7 +63,11 @@ const personJsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${jetbrains.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Marks that scripting is available, so CSS can choose the pinned Trace layout. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body>
         <a
           href="#main"
