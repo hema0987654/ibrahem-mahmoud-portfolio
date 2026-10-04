@@ -13,6 +13,7 @@
   --color-line-strong: rgb(20 20 18 / 0.32);
   --color-signal: #1f3bff;
   --color-signal-on-ink: #5873ff;
+  --color-signal-deep: #1a30d9;
   --color-ok: #17794b;
   --color-warn: #96610f;
   --color-ok-on-ink: #6fd3a3;
@@ -152,7 +153,7 @@ code,
   color: var(--color-paper);
 }
 .surface-signal {
-  background: var(--color-signal);
+  background: var(--color-signal-deep);
   color: var(--color-paper);
 }
 .surface-ink ::selection {
@@ -916,6 +917,13 @@ html.has-path .grow-line {
   letter-spacing: -0.05em;
   white-space: nowrap;
 }
+.plate[data-accent] .plate-name {
+  color: var(--color-signal);
+}
+/* Two paper plates never meet, but the last one closes the set with a single rule. */
+.plate[data-accent] {
+  border-top: 0;
+}
 .plate-muted {
   color: var(--p-muted);
 }
@@ -1171,5 +1179,50 @@ html.has-path .grow-line {
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
+  }
+}
+
+/* ── About: the portrait as a plate in a technical document ────────────── */
+.portrait-frame {
+  position: relative;
+  padding: 0.625rem;
+  border: 1px solid var(--color-line);
+}
+.portrait-frame::before,
+.portrait-frame::after {
+  content: "";
+  position: absolute;
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 2px solid var(--color-signal);
+  pointer-events: none;
+}
+.portrait-frame::before {
+  top: -1px;
+  left: -1px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.portrait-frame::after {
+  right: -1px;
+  bottom: -1px;
+  border-left: 0;
+  border-top: 0;
+}
+@keyframes portrait-wipe {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html.js .portrait-wipe {
+      animation: portrait-wipe linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 32%;
+    }
   }
 }

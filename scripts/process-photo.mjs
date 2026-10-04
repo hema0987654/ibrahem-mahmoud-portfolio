@@ -9,16 +9,27 @@ const SOURCE = "assets-src/portrait-source.jpg";
 // 4:5 crop on the 1023x1537 source: just above the head to just below the pocket square.
 const CROP = { left: 172, top: 228, width: 552, height: 690 };
 
-// Warm paper tone (#f2efe8) so highlights match the page instead of pure white.
-const PAPER = { r: 242, g: 239, b: 232 };
+// Duotone: shadows land on Ink (#101110), highlights on Paper (#f2efe8),
+// so the portrait uses the same two colours as the page.
+const INK = [16, 17, 16];
+const PAPER = [242, 239, 232];
+
+const grey = await sharp(SOURCE)
+  .extract(CROP)
+  .grayscale()
+  // gentle contrast lift that keeps lapel detail in the blacks
+  .linear(1.1, -10)
+  .toColourspace("srgb")
+  .png()
+  .toBuffer();
 
 const base = () =>
-  sharp(SOURCE)
-    .extract(CROP)
-    .grayscale()
-    // gentle contrast lift that keeps lapel detail in the blacks
-    .linear(1.1, -10)
-    .tint(PAPER);
+  sharp(grey)
+    .removeAlpha()
+    .linear(
+      PAPER.map((p, i) => (p - INK[i]) / 255),
+      INK,
+    );
 
 await mkdir("public", { recursive: true });
 

@@ -4,7 +4,11 @@ export function About() {
   const { about } = profile;
 
   return (
-    <section id="about" aria-labelledby="about-heading" className="section rule">
+    <section
+      id="about"
+      aria-labelledby="about-heading"
+      className="section rule"
+    >
       <div className="page">
         <p className="label flex items-center gap-3 text-muted">
           <span className="text-signal">05</span>
@@ -19,15 +23,23 @@ export function About() {
         </h2>
 
         <div className="mt-12 grid gap-12 md:mt-16 md:grid-cols-12 md:gap-10">
-          <div className="reveal md:col-span-7">
+          <div className="hidden md:col-span-5 md:block">
+            <div className="lg:sticky lg:top-28">
+              <Portrait />
+            </div>
+          </div>
+
+          <div className="reveal md:col-span-6 md:col-start-7">
             <p className="text-lead">{about.paragraphs[0]}</p>
 
             {/* Mobile: the figure sits after the first paragraph */}
-            <div className="mt-10 w-[62%] max-w-[260px] md:hidden">
+            <div className="mt-10 w-[82%] max-w-[340px] md:hidden">
               <Portrait />
             </div>
 
-            <p className="mt-10 text-lead text-muted md:mt-6">{about.paragraphs[1]}</p>
+            <p className="mt-10 text-lead text-muted md:mt-6">
+              {about.paragraphs[1]}
+            </p>
 
             <dl className="mt-12 border-t border-line">
               {about.facts.map((fact) => (
@@ -37,18 +49,16 @@ export function About() {
                 >
                   <dt className="label pt-1 text-muted">{fact.label}</dt>
                   <dd>
-                    <span className="block text-[1.0625rem] leading-snug">{fact.value}</span>
-                    <span className="mt-1 block font-mono text-[0.8125rem] text-muted">{fact.detail}</span>
+                    <span className="block text-[1.0625rem] leading-snug">
+                      {fact.value}
+                    </span>
+                    <span className="mt-1 block font-mono text-[0.8125rem] text-muted">
+                      {fact.detail}
+                    </span>
                   </dd>
                 </div>
               ))}
             </dl>
-          </div>
-
-          <div className="reveal hidden md:col-span-4 md:col-start-9 md:block">
-            <div className="max-w-[320px] md:ml-auto">
-              <Portrait />
-            </div>
           </div>
         </div>
       </div>
@@ -61,20 +71,26 @@ function Portrait() {
   const { photo } = profile.about;
   return (
     <figure>
-      <div className="figure-grain overflow-hidden rounded-sheet border border-line-strong bg-paper-deep">
-        <picture>
-          <source type="image/avif" srcSet="/about-320.avif 320w, /about-640.avif 640w" sizes="(min-width: 48rem) 320px, 62vw" />
-          {/* Pre-processed static asset: fixed crop, two widths, lazy. */}
-          <img
-            src="/about-640.jpg"
-            alt={photo.alt}
-            width={640}
-            height={800}
-            loading="lazy"
-            decoding="async"
-            className="block aspect-[4/5] w-full object-cover"
-          />
-        </picture>
+      <div className="portrait-frame">
+        <div className="portrait-wipe figure-grain overflow-hidden rounded-sheet bg-paper-deep">
+          <picture>
+            <source
+              type="image/avif"
+              srcSet="/about-320.avif 320w, /about-640.avif 640w"
+              sizes="(min-width: 48rem) 480px, 82vw"
+            />
+            {/* Pre-processed static asset: fixed crop, two widths, lazy. */}
+            <img
+              src="/about-640.jpg"
+              alt={photo.alt}
+              width={640}
+              height={800}
+              loading="lazy"
+              decoding="async"
+              className="block aspect-[4/5] w-full object-cover"
+            />
+          </picture>
+        </div>
       </div>
       <figcaption className="label mt-3 text-muted">{photo.caption}</figcaption>
     </figure>

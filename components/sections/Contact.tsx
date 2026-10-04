@@ -3,10 +3,10 @@ import { CopyEmail } from "@/components/ui/CopyEmail";
 import { MagneticLink } from "@/components/ui/MagneticLink";
 import { SiteFooter } from "@/components/ui/SiteFooter";
 
-/** The request completes: a full Signal surface, the status code, and the address. */
+/** The request completes: an Ink surface, the status code in Signal, and the address. */
 export function Contact() {
   return (
-    <section id="contact" aria-labelledby="contact-heading" className="surface-signal" data-path="end">
+    <section id="contact" aria-labelledby="contact-heading" className="surface-ink" data-path="end">
       <span className="margin-line" aria-hidden="true" />
 
       <div className="page flex min-h-[100svh] flex-col pt-14 md:pt-20">
@@ -24,7 +24,7 @@ export function Contact() {
         {/* the status code is the picture; the heading says the same in words */}
         <div aria-hidden="true" className="cq mt-10 md:mt-14">
           <div className="flex flex-wrap items-end gap-x-[4cqw] gap-y-3">
-            <p className="finale-code reveal-wipe">201</p>
+            <p className="finale-code reveal-wipe text-signal-on-ink">201</p>
             <p className="pb-[0.2em] font-mono text-[clamp(1.25rem,5.2cqw,5rem)] font-medium uppercase leading-none tracking-[-0.02em]">
               Created
             </p>

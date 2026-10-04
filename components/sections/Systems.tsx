@@ -6,8 +6,8 @@ import { ModuleList } from "@/components/diagram/ModuleList";
 
 type Tone = "paper" | "ink" | "signal";
 
-/** One surface per system: Paper, Ink, Signal. */
-const tones: readonly Tone[] = ["paper", "ink", "signal"];
+/** Paper, Ink, Paper. Signal stays an accent here; the full Signal surface is kept for the finale. */
+const tones: readonly Tone[] = ["paper", "ink", "paper"];
 
 /** Sizes the name so it spans the plate whatever its length. */
 const fit = (name: string) => Math.min(18.5, 96 / (name.length * 0.535));
@@ -37,17 +37,17 @@ export function Systems() {
       </div>
 
       {systems.map((system, i) => (
-        <Plate key={system.slug} system={system} tone={tones[i % tones.length] ?? "paper"} />
+        <Plate key={system.slug} system={system} tone={tones[i % tones.length] ?? "paper"} accent={i === 2} />
       ))}
     </section>
   );
 }
 
-function Plate({ system, tone }: { system: System; tone: Tone }) {
+function Plate({ system, tone, accent = false }: { system: System; tone: Tone; accent?: boolean }) {
   const surface = tone === "ink" ? "surface-ink" : tone === "signal" ? "surface-signal" : "";
 
   return (
-    <article aria-labelledby={`system-${system.slug}`} className={`plate ${surface}`} data-tone={tone}>
+    <article aria-labelledby={`system-${system.slug}`} className={`plate ${surface}`} data-tone={tone} data-accent={accent || undefined}>
       {tone !== "paper" ? <span className="margin-line" aria-hidden="true" /> : null}
 
       <div className="page flex min-h-[100svh] flex-col py-14 md:py-20">
